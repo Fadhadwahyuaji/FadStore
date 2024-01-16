@@ -1,0 +1,18 @@
+body {
+    background-color: #ffffff; /* background biru muda */
+}
+
+.jumbotron {
+    background-color: #ffffff; /* background putih */
+}
+
+.product-card {
+    margin-top: 20px;
+}
+
+.description-limit {
+    max-height: 200px; /* Sesuaikan dengan tinggi maksimum yang diinginkan */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
