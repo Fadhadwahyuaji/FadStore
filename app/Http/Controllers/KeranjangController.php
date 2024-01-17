@@ -2,14 +2,51 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Keranjang;
 use App\Models\Produk;
 use Illuminate\Http\Request;
 
 class KeranjangController extends Controller
 {
-    function keranjang(){
-        $produks = Produk::all();
+    function keranjang()
+    {
+        $keranjang = Keranjang::where('user_id', auth()->user()->id)->with('produk')->get();
 
-        return view('pembeli.keranjang', compact('produks'));
+        return view('pembeli.keranjang', compact('keranjang'));
+    }
+
+    public function tambahKeranjang(Request $request,Produk $produk)
+    {
+        // Logika untuk menambah produk ke keranjang
+        $keranjang = new Keranjang();
+        $keranjang->user_id = auth()->user()->id; // Sesuaikan dengan cara Anda mengelola pengguna
+        $keranjang->produk_id = $produk->id;
+        $keranjang->jumlah = 1; // Default quantity, bisa diubah sesuai kebutuhan
+        $keranjang->sub_total = $produk->harga;
+        $keranjang->save();
+
+        return redirect()->back()->with('success', 'Produk berhasil ditambahkan ke keranjang.');
+    }
+
+    public function tambahQuantity(Request $request, $keranjang_id)
+{
+    $keranjang = Keranjang::find($keranjang_id);
+    $keranjang->jumlah = $request->input('jumlah');
+    $keranjang->save();
+
+    return redirect()->back()->with('success', 'Quantity updated successfully.');
+}
+
+    public function removeFromCart(Request $request, $id)
+    {
+        $cart = Keranjang::find($id);
+
+        if (!$cart) {
+            return redirect()->back()->with('error', 'Item tidak ditemukan dalam keranjang.');
+        }
+
+        $cart->delete();
+
+        return redirect()->back()->with('success', 'Item berhasil dihapus dari keranjang.');
     }
 }

@@ -17,9 +17,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('pembeli.beranda');
+// });
+Route::get('/', [PembeliController::class, 'beranda'])->name('beranda');
 
 Route::middleware('auth')->group(function () {
 
@@ -39,6 +40,9 @@ Route::get('/beranda', [PembeliController::class, 'beranda'])->name('beranda');
 
 //keranjang
 Route::get('/keranjangku', [KeranjangController::class, 'keranjang'])->name('keranjang');
+Route::get('/tambah-keranjang/{produk}', [KeranjangController::class, 'tambahKeranjang'])->name('tambah.keranjang');
+Route::put('/tambah-quantity/{keranjang_id}', [KeranjangController::class, 'tambahQuantity'])->name('tambah.quantity');
+Route::delete('/hapus-keranjang/{id}', [KeranjangController::class, 'removeFromCart'])->name('hapus.keranjang');
     });
 });
 

@@ -50,24 +50,34 @@
     
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('keranjang') }}"><i class="bi bi-cart"></i></a>
+                        @auth
+                            <a class="nav-link" href="{{ route('keranjang') }}"><i class="bi bi-cart"></i></a>
+                        @else
+                            <a class="nav-link" href="{{ route('login') }}"><i class="bi bi-cart"></i></a>
+                        @endauth
                     </li>
+                    
                     <li class="dropdown ms-2">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name }}
+                        @auth
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            {{ Auth::user()->name }}
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                               onclick="event.preventDefault();
+                                             document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
                             </a>
 
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                   onclick="event.preventDefault();
-                                                 document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                </a>
-
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
-                            </div>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </div>
+                        @else
+                        <a class="nav-link" href="{{ route('login') }}"><i class="bi bi-person"></i></a>
+                        @endauth
+                            
                         </li>
                 </ul>
                 
@@ -77,7 +87,6 @@
     
 
     @yield('content')
-<br><br><br>
     <footer class="bg-dark text-light text-center py-3" >
         <div class="container">
             <p>&copy; 2024 Fadhad Wahyu Aji</p>
