@@ -53,32 +53,20 @@
                         <a class="nav-link" href="{{ route('keranjang') }}"><i class="bi bi-cart"></i></a>
                     </li>
                     <li class="dropdown ms-2">
-                            <a class="rounded-circle" href="#" role="button" id="dropdownUser"
-                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <div class="avatar avatar-md avatar-indicators avatar-online">
-                                    <img alt="avatar" src="./assets/images/avatar/avatar-1.jpg"
-                                        class="rounded-circle" />
-                                </div>
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{ Auth::user()->name }}
                             </a>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser">
-                                <div class="px-4 pb-0 pt-2">
 
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();
+                                                 document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
 
-                                    <div class="lh-1 ">
-                                        <h5 class="mb-1">Fadhad WA</h5>
-                                        {{-- <a href="#" class="text-inherit fs-6">View my profile</a> --}}
-                                    </div>
-                                    <div class=" dropdown-divider mt-3 mb-2"></div>
-                                </div>
-
-                                <ul class="list-unstyled">
-                                    <li>
-                                        <a class="dropdown-item" href="/">
-                                            <i class="me-2 icon-xxs dropdown-item-icon" data-feather="power"></i>Keluar
-                                        </a>
-                                    </li>
-                                </ul>
-
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
                             </div>
                         </li>
                 </ul>
