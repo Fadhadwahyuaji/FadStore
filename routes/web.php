@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\PembeliController;
+use App\Http\Controllers\PesananController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -43,6 +44,13 @@ Route::get('/keranjangku', [KeranjangController::class, 'keranjang'])->name('ker
 Route::get('/tambah-keranjang/{produk}', [KeranjangController::class, 'tambahKeranjang'])->name('tambah.keranjang');
 Route::put('/tambah-quantity/{keranjang_id}', [KeranjangController::class, 'tambahQuantity'])->name('tambah.quantity');
 Route::delete('/hapus-keranjang/{id}', [KeranjangController::class, 'removeFromCart'])->name('hapus.keranjang');
+
+//midtrans
+Route::get('/detail-pesanan', [PesananController::class, 'pesanan'])->name('pesanan');
+Route::get('/checkout', [PesananController::class, 'checkout'])->name('checkout');
+Route::post('/pesanan/bayar', [PesananController::class, 'pay'])->name('pesanan.bayar');
+
+
     });
 });
 

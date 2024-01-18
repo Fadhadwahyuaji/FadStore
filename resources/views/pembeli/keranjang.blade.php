@@ -82,7 +82,7 @@
             <!-- Tombol Checkout -->
             <div class="row mt-4 justify-content-end">
                 <div class="col-md-6 text-md-end">
-                    <a href="#" class="btn btn-primary">Checkout</a>
+                    <a href="{{ route('checkout') }}" class="btn btn-primary">Checkout</a>
                 </div>
             </div>
         @else

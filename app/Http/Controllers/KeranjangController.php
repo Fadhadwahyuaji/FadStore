@@ -25,6 +25,8 @@ class KeranjangController extends Controller
         $keranjang->sub_total = $produk->harga;
         $keranjang->save();
 
+        $this->updateTotalPesanan(auth()->user()->id);
+
         return redirect()->back()->with('success', 'Produk berhasil ditambahkan ke keranjang.');
     }
 
@@ -33,6 +35,8 @@ class KeranjangController extends Controller
     $keranjang = Keranjang::find($keranjang_id);
     $keranjang->jumlah = $request->input('jumlah');
     $keranjang->save();
+
+    $this->updateTotalPesanan(auth()->user()->id);
 
     return redirect()->back()->with('success', 'Quantity updated successfully.');
 }
@@ -48,5 +52,17 @@ class KeranjangController extends Controller
         $cart->delete();
 
         return redirect()->back()->with('success', 'Item berhasil dihapus dari keranjang.');
+    }
+
+    private function updateTotalPesanan($user_id)
+    {
+        $total = Keranjang::where('user_id', $user_id)->sum('sub_total');
+
+        // Simpan total pesanan ke dalam tabel pesanan
+        $pesanan = Keranjang::where('user_id', $user_id)->first();
+        if ($pesanan) {
+            $pesanan->total = $total;
+            $pesanan->save();
+        }
     }
 }

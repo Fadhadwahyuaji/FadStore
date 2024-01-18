@@ -1,30 +1,16 @@
 <!doctype html>
-<html lang="id">
+<html lang="en">
 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <link rel="shortcut icon" type="image/x-icon" href="{{ url('/assets/images/sislab_logo.png') }}">
-    <link href="{{ url('/assets/libs/bootstrap-icons/font/bootstrap-icons.css') }}" rel="stylesheet">
-    <link href="{{ url('/assets/libs/dropzone/dist/dropzone.css') }}" rel="stylesheet">
-    <link href="{{ url('/assets/libs/@mdi/font/css/materialdesignicons.min.css') }}" rel="stylesheet" />
-    <link href="{{ url('/assets/libs/prismjs/themes/prism-okaidia.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url('/assets/css/theme.min.css') }}">
-    <link rel="stylesheet" href="{{ url('/assets/css/style.css') }}">
-    {{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> --}}
+    <title>
+        FadStore Pebayaran
+    </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.18.0/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-    <title>Fad Store</title>
 </head>
 
 <body>
@@ -93,48 +79,52 @@
         </div>
     </nav>
 
-
     @yield('content')
+
     <footer class="bg-dark text-light text-center py-3">
         <div class="container">
             <p>&copy; 2024 Fadhad Wahyu Aji</p>
         </div>
     </footer>
 
-    <!-- Optional JavaScript; choose one of the two! -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
+    </script>
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js"
+        data-client-key="{{ config('services.midtrans.clientKey') }}"></script>
+    <script type="text/javascript">
+        $.post("{{ route('pesanan.bayar') }}", {
+                _method: 'POST',
+                _token: '{{ csrf_token() }}',
+                name: $('#name').val(),
+                email: $('#email').val(),
+                amount: $('#amount').val(),
+                note: $('#note').val()
+            },
+            function(data, status) {
+                // Periksa status response
+                if (data.status === 'success') {
+                    // Buka pop-up pembayaran dengan Snap.js
+                    snap.pay(data.snap_token.snap_token, {
+                        onSuccess: function(result) {
+                            location.reload();
+                        },
 
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <!-- Libs JS -->
-    <script src="{{ url('/assets/libs/jquery/dist/jquery.min.js') }}"></script>
-    <script src="{{ url('/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ url('/assets/libs/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
-    <script src="{{ url('/assets/libs/feather-icons/dist/feather.min.js') }}"></script>
-    <script src="{{ url('/assets/libs/prismjs/prism.js') }}"></script>
-    <script src="{{ url('/assets/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
-    <script src="{{ url('/assets/libs/dropzone/dist/min/dropzone.min.js') }}"></script>
-    <script src="{{ url('/assets/libs/prismjs/plugins/toolbar/prism-toolbar.min.js') }}"></script>
-    <script src="{{ url('/assets/libs/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js') }}"></script>
+                        onPending: function(result) {
+                            location.reload();
+                        },
 
-    <!-- Theme JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="{{ url('/assets/js/theme.min.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
-    </script>
-    <script>
-        document.getElementById('btnBeliSekarang').addEventListener('click', function() {
-            var targetElement = document.getElementById('produk');
-            targetElement.scrollIntoView({
-                behavior: 'smooth'
+                        onError: function(result) {
+                            location.reload();
+                        }
+                    });
+                } else {
+                    // Tampilkan pesan kesalahan jika diperlukan
+                    console.error('Error in payment request:', data.message);
+                }
             });
-        });
     </script>
 </body>
 

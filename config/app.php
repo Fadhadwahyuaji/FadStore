@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Facade;
+use Midtrans\Laravel\Facades\Midtrans as MidtransFacade;
+use Midtrans\Laravel\MidtransServiceProvider;
 use Illuminate\Support\ServiceProvider;
 
 return [
@@ -156,6 +158,7 @@ return [
     */
 
     'providers' => ServiceProvider::defaultProviders()->merge([
+        // Midtrans\MidtransServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -168,6 +171,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        
     ])->toArray(),
 
     /*
@@ -183,6 +187,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        // 'Midtrans' => Midtrans\MidtransFacade::class,
     ])->toArray(),
 
 ];

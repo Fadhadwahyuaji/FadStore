@@ -12,5 +12,7 @@ class PembeliController extends Controller
 
         return view('pembeli.beranda', compact('produks'));
     }
+
+    
     
 }
