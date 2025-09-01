@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Customer;
+use App\Models\ProfileAdmin;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -15,19 +18,20 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         // Admin User
-        DB::table('users')->insert([
-            'name' => 'FadStore',
+        // User Admin (tanpa customer, dan tanpa kolom name)
+        User::create([
             'email' => 'admin@fadstore.com',
-            'password' => Hash::make('123456'),
+            'nama' => 'Admin Fadhad',
+            'password' => Hash::make('password'),
             'role' => 'admin',
         ]);
 
-        // Pembeli User
-        DB::table('users')->insert([
-            'name' => 'Fadhad Wahyu Aji',
-            'email' => 'pembeli@fadstore.com',
-            'password' => Hash::make('123456'),
-            'role' => 'pembeli',
+        // User Pembeli (tanpa name)
+        User::create([
+            'email' => 'fadhad@fadstore.com',
+            'nama' => 'Fadhad Wahyu Aji',
+            'password' => Hash::make('password'),
+            'role' => 'customer',
         ]);
     }
 }

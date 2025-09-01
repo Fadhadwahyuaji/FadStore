@@ -18,10 +18,12 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
         'email',
         'password',
         'role',
+        'nama',
+        'photo',
+        'no_hp',
     ];
 
     /**
@@ -43,4 +45,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function alamat()
+    {
+        return $this->hasMany(Alamat::class);
+    }
+
+    public function defaultAlamat()
+    {
+        return $this->hasOne(Alamat::class)->where('is_default', true);
+    }
 }

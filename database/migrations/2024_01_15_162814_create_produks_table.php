@@ -18,6 +18,9 @@ return new class extends Migration
             $table->text('deskripsi')->nullable();
             $table->integer('harga'); // Ubah tipe data sesuai kebutuhan
             $table->integer('jumlah')->nullable();
+            $table->integer('berat')->default(1000); // Dalam gram (WAJIB untuk kalkulasi ongkir)
+            $table->string('kategori')->nullable(); // Bisa dibuat tabel terpisah jika kompleks
+            $table->boolean('is_published')->default(true); // Untuk hide/unhide produk
             $table->timestamps();
         });
     }

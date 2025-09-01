@@ -7,12 +7,17 @@ use Illuminate\Http\Request;
 
 class PembeliController extends Controller
 {
-    function beranda(){
-        $produks = Produk::all();
+    function beranda()
+    {
+        $produks = Produk::take(8)->get();
 
-        return view('pembeli.beranda', compact('produks'));
+        return view('customer.beranda', compact('produks'));
     }
 
-    
-    
+    function produkAll()
+    {
+        $produks = Produk::all();
+
+        return view('customer.produk', compact('produks'));
+    }
 }

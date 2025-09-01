@@ -1,0 +1,48 @@
+<?php
+
+namespace Database\Seeders;
+// namespace Dipantry\Rajaongkir\Seeds;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+
+
+use Dipantry\Rajaongkir\Policies\PackagePolicy;
+use Flynsarmy\CsvSeeder\CsvSeeder;
+use Illuminate\Support\Facades\DB;
+
+class ROCitySeeder extends CsvSeeder
+{
+    public function __construct()
+    {
+        $this->table = config('rajaongkir.table_prefix').'cities';
+        $this->filename = public_path('csv/city.csv');
+        $this->csv_delimiter = ',';
+        $this->offset_rows = 1;
+        $this->mapping = [
+            0 => 'id',
+            1 => 'province_id',
+            3 => 'type',
+            4 => 'name',
+            5 => 'postal_code',
+        ];
+    }
+
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run(): void
+    {
+        $package = config('rajaongkir.package');
+        if (!(new PackagePolicy($package))->allowGetCities()) {
+            return;
+        }
+
+        DB::disableQueryLog();
+        DB::table($this->table);
+
+        parent::run();
+    }
+}

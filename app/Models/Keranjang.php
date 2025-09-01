@@ -11,9 +11,9 @@ class Keranjang extends Model
     protected $fillable = [
         'user_id',
         'produk_id',
+        'pesanan_id',
         'jumlah',
         'sub_total',
-        'total',
     ];
 
     public function user()
@@ -24,5 +24,10 @@ class Keranjang extends Model
     public function produk()
     {
         return $this->belongsTo(Produk::class);
+    }
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class, 'pesanan_id');
     }
 }

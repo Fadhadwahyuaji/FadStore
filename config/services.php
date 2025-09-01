@@ -39,4 +39,10 @@ return [
         'is3ds'         => env('MIDTRANS_IS_3DS'),
     ],
 
+    'rajaongkir' => [
+        'key' => env('RAJAONGKIR_KEY'),
+        'base_url' => env('RAJAONGKIR_BASEURL'),
+    ],
+
+
 ];

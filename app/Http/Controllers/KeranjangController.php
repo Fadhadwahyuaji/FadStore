@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Keranjang;
 use App\Models\Produk;
+use App\Models\Voucher;
 use Illuminate\Http\Request;
 
 class KeranjangController extends Controller
@@ -12,15 +13,16 @@ class KeranjangController extends Controller
     {
         $keranjang = Keranjang::where('user_id', auth()->user()->id)->with('produk')->get();
 
-        return view('pembeli.keranjang', compact('keranjang'));
+        return view('customer.keranjang', compact('keranjang'));
     }
 
-    public function tambahKeranjang(Request $request,Produk $produk)
+    public function tambahKeranjang(Request $request, Produk $produk)
     {
         // Logika untuk menambah produk ke keranjang
         $keranjang = new Keranjang();
         $keranjang->user_id = auth()->user()->id; // Sesuaikan dengan cara Anda mengelola pengguna
         $keranjang->produk_id = $produk->id;
+        // $keranjang->pesanan_id ='0';
         $keranjang->jumlah = 1; // Default quantity, bisa diubah sesuai kebutuhan
         $keranjang->sub_total = $produk->harga;
         $keranjang->save();
@@ -31,15 +33,15 @@ class KeranjangController extends Controller
     }
 
     public function tambahQuantity(Request $request, $keranjang_id)
-{
-    $keranjang = Keranjang::find($keranjang_id);
-    $keranjang->jumlah = $request->input('jumlah');
-    $keranjang->save();
+    {
+        $keranjang = Keranjang::find($keranjang_id);
+        $keranjang->jumlah = $request->input('jumlah');
+        $keranjang->save();
 
-    $this->updateTotalPesanan(auth()->user()->id);
+        $this->updateTotalPesanan(auth()->user()->id);
 
-    return redirect()->back()->with('success', 'Quantity updated successfully.');
-}
+        return redirect()->back()->with('success', 'Quantity updated successfully.');
+    }
 
     public function removeFromCart(Request $request, $id)
     {
@@ -61,7 +63,7 @@ class KeranjangController extends Controller
         // Simpan total pesanan ke dalam tabel pesanan
         $pesanan = Keranjang::where('user_id', $user_id)->first();
         if ($pesanan) {
-            $pesanan->total = $total;
+            // $pesanan->sub_total = $sub_total;
             $pesanan->save();
         }
     }

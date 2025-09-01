@@ -16,11 +16,11 @@ class ProdukSeeder extends Seeder
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
-    // Lakukan truncate pada tabel
-    Produk::truncate();
+        // Lakukan truncate pada tabel
+        Produk::truncate();
 
-    // Aktifkan kembali cek foreign key
-    DB::statement('SET FOREIGN_KEY_CHECKS=1');
+        // Aktifkan kembali cek foreign key
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
 
         // Data produk yang akan diisi
         $produkData = [
@@ -41,6 +41,48 @@ class ProdukSeeder extends Seeder
             [
                 'gambar' => 'Bucket-Hats.png',
                 'nama' => 'Topi Ember Casual Day',
+                'deskripsi' => 'Deskripsi Produk 3',
+                'harga' => 120000,
+                'jumlah' => 30,
+            ],
+            [
+                'gambar' => 'tshirt.jpeg',
+                'nama' => 'T-shirt Casual Day 2',
+                'deskripsi' => 'Deskripsi Produk 1',
+                'harga' => 150000,
+                'jumlah' => 50,
+            ],
+            [
+                'gambar' => 'Caps.png',
+                'nama' => 'Topi Casual Day 2',
+                'deskripsi' => 'Deskripsi Produk 2',
+                'harga' => 100000,
+                'jumlah' => 30,
+            ],
+            [
+                'gambar' => 'Bucket-Hats.png',
+                'nama' => 'Topi Ember Casual Day 2',
+                'deskripsi' => 'Deskripsi Produk 3',
+                'harga' => 120000,
+                'jumlah' => 30,
+            ],
+            [
+                'gambar' => 'tshirt.jpeg',
+                'nama' => 'T-shirt Casual Day 3',
+                'deskripsi' => 'Deskripsi Produk 1',
+                'harga' => 150000,
+                'jumlah' => 50,
+            ],
+            [
+                'gambar' => 'Caps.png',
+                'nama' => 'Topi Casual Day 3',
+                'deskripsi' => 'Deskripsi Produk 2',
+                'harga' => 100000,
+                'jumlah' => 30,
+            ],
+            [
+                'gambar' => 'Bucket-Hats.png',
+                'nama' => 'Topi Ember Casual Day 3',
                 'deskripsi' => 'Deskripsi Produk 3',
                 'harga' => 120000,
                 'jumlah' => 30,

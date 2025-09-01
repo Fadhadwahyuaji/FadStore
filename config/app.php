@@ -158,6 +158,7 @@ return [
     */
 
     'providers' => ServiceProvider::defaultProviders()->merge([
+        Dipantry\Rajaongkir\ServiceProvider::class,
         // Midtrans\MidtransServiceProvider::class,
         /*
          * Package Service Providers...
@@ -186,6 +187,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
+        'Rajaongkir' => Dipantry\Rajaongkir\Facade::class,
         // 'Example' => App\Facades\Example::class,
         // 'Midtrans' => Midtrans\MidtransFacade::class,
     ])->toArray(),

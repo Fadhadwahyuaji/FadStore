@@ -43,34 +43,49 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($produks as $produk )
-                                <tr>
-                                    <td class="align-middle">{{ $produk->id }}</td>
-                                    <td class="align-middle">
-                                        <div class="d-flex align-items-center">
-                                            <div>
-                                                <div class="icon-shape icon-md border p-4 rounded-1">
-                                                    <img src="{{ asset('storage/Foto_Produk/' . basename($produk->gambar)) }}" alt="" style="width: 30px; height: 30px;">
+                                @foreach ($produks as $produk)
+                                    <tr>
+                                        <td class="align-middle">{{ $produk->id }}</td>
+                                        <td class="align-middle">
+                                            <div class="d-flex align-items-center">
+                                                <div>
+                                                    <div class="icon-shape icon-md border p-4 rounded-1">
+                                                        <img src="{{ asset('/' . basename($produk->gambar)) }}"
+                                                            alt="" style="width: 30px; height: 30px;">
+                                                    </div>
                                                 </div>
-                                            </div></div></td>
-                                            <td class="align-middle">
-                                                <h5 class=" mb-1">{{ $produk->nama }}</h5></td>
-                                    <td class="align-middle"><h5 class=" mb-1">{{ \Illuminate\Support\Str::limit($produk->deskripsi, $limit = 20, $end = '...')}}</h5></td>
-                                    <td class="align-middle"><h5 class=" mb-1">{{ $produk->jumlah }}</h5></td>
-                                    <td class="align-middle"><h5 class=" mb-1">{{ $produk->harga }}</h5></td>
-                                    <td><div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                        <a href="{{ route('edit.produk', $produk->id) }}"><button type="button" class="btn btn-primary">Edit</button></a>
-                                        <form action="{{ route('destroy.produk', $produk->id) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">Hapus</button>
-                                        </form>
-                                        {{-- @component('components.mahasiswa.tambah_mahasiswa')
+                                            </div>
+                                        </td>
+                                        <td class="align-middle">
+                                            <h5 class=" mb-1">{{ $produk->nama }}</h5>
+                                        </td>
+                                        <td class="align-middle">
+                                            <h5 class=" mb-1">
+                                                {{ \Illuminate\Support\Str::limit($produk->deskripsi, $limit = 20, $end = '...') }}
+                                            </h5>
+                                        </td>
+                                        <td class="align-middle">
+                                            <h5 class=" mb-1">{{ $produk->jumlah }}</h5>
+                                        </td>
+                                        <td class="align-middle">
+                                            <h5 class=" mb-1">{{ $produk->harga }}</h5>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                                <a href="{{ route('edit.produk', $produk->id) }}"><button type="button"
+                                                        class="btn btn-primary">Edit</button></a>
+                                                <form action="{{ route('destroy.produk', $produk->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger">Hapus</button>
+                                                </form>
+                                                {{-- @component('components.mahasiswa.tambah_mahasiswa')
                                 <!-- Anda dapat menambahkan konten khusus untuk modal di sini -->
                                         @endcomponent</td> --}}
-                                      </div></td>
-                                </tr>
-                                    @endforeach
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -83,9 +98,9 @@
 
             </div>
         </div>
-                <!-- End Card -->
-            </div>
-        </div>
+        <!-- End Card -->
+    </div>
+    </div>
     </div>
 
     </div>

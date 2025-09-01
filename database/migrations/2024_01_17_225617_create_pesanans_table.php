@@ -13,17 +13,25 @@ return new class extends Migration
     {
         Schema::create('pesanans', function (Blueprint $table) {
             $table->id();
-            $table->string('code')->nullable();
-            $table->string('name');
-            $table->string('email')->nullable();
-            $table->double('amount')->default(0);
-            $table->text('note')->nullable();
-            // $table->string('nama_produk')->nullable();
-            // $table->string('Jumlah Pesanan')->nullable();
+            $table->string('code')->nullable(); // Jika ini adalah kode unik atau nomor referensi pesanan
+            // $table->foreignId('user_id')->constrained();
+            $table->string('nama');
+            $table->string('email');
+            // $table->foreignId('keranjang_id')->constrained();
+            $table->string('no_hp')->nullable();
+            $table->double('total')->default(0);
+            $table->string('provinsi')->nullable();
+            $table->string('kabupaten')->nullable();
+            $table->string('kecamatan')->nullable();
+            $table->string('layanan_pengiriman')->nullable();
+            $table->double('ongkir')->nullable();
+            $table->text('detail_alamat')->nullable();
             $table->string('status')->default('pending');
             $table->string('snap_token')->nullable();
+            $table->timestamp('tanggal_pesanan')->nullable();
             $table->timestamps();
         });
+        
     }
 
     /**

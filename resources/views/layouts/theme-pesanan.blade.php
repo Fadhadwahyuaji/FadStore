@@ -98,10 +98,10 @@
         $.post("{{ route('pesanan.bayar') }}", {
                 _method: 'POST',
                 _token: '{{ csrf_token() }}',
-                name: $('#name').val(),
-                email: $('#email').val(),
-                amount: $('#amount').val(),
-                note: $('#note').val()
+                // name: $('#name').val(),
+                // email: $('#email').val(),
+                // amount: $('#amount').val(),
+                // note: $('#note').val()
             },
             function(data, status) {
                 // Periksa status response
