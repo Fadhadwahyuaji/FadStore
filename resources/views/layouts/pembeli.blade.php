@@ -545,12 +545,12 @@
             <div class="d-flex align-items-center d-lg-none">
                 <!-- Cart Icon for Mobile -->
                 @auth
-                    <a href="{{ route('keranjang') }}" class="nav-icon me-2">
+                    <a href="{{ route('customer.keranjang.index') }}" class="nav-icon me-2">
                         <i class="fas fa-shopping-cart"></i>
                         <span class="badge rounded-pill">3</span>
                     </a>
                 @else
-                    <a href="{{ route('keranjang') }}" class="nav-icon me-2">
+                    <a href="{{ route('customer.keranjang.index') }}" class="nav-icon me-2">
                         <i class="fas fa-shopping-cart"></i>
                     </a>
                 @endauth
@@ -587,7 +587,8 @@
 
                         <!-- Enhanced Cart Icon -->
                         <li class="nav-item mx-1 d-none d-lg-block">
-                            <a class="nav-icon" href="{{ route('keranjang') }}" data-bs-toggle="tooltip" title="Keranjang">
+                            <a class="nav-icon" href="{{ route('customer.keranjang.index') }}" data-bs-toggle="tooltip"
+                                title="Keranjang">
                                 <i class="fas fa-shopping-cart"></i>
                                 <span class="badge rounded-pill">3</span>
                             </a>
@@ -667,7 +668,7 @@
                     @else
                         <!-- Enhanced Cart Icon for Guest -->
                         <li class="nav-item mx-1 d-none d-lg-block">
-                            <a class="nav-icon" href="{{ route('keranjang') }}" data-bs-toggle="tooltip"
+                            <a class="nav-icon" href="{{ route('customer.keranjang.index') }}" data-bs-toggle="tooltip"
                                 title="Keranjang">
                                 <i class="fas fa-shopping-cart"></i>
                             </a>

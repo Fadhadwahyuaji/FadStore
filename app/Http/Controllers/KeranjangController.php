@@ -67,4 +67,31 @@ class KeranjangController extends Controller
             $pesanan->save();
         }
     }
+
+    public function deleteSelected(Request $request)
+    {
+        $validated = $request->validate([
+            'ids' => ['required', 'array', 'min:1'],
+            'ids.*' => ['integer'],
+        ]);
+
+        $userId = auth()->id();
+        $ids = array_values(array_unique($validated['ids']));
+
+        // ganti 'user_id' jika kolom relasi user berbeda di tabel keranjangs
+        $ownedIds = Keranjang::whereIn('id', $ids)
+            ->where('user_id', $userId)
+            ->pluck('id')
+            ->all();
+
+        $deletedCount = Keranjang::whereIn('id', $ownedIds)->delete();
+        $notFound = array_values(array_diff($ids, $ownedIds));
+
+        return response()->json([
+            'success' => true,
+            'deleted_count' => $deletedCount,
+            'deleted_ids' => $ownedIds,
+            'not_found_ids' => $notFound,
+        ]);
+    }
 }

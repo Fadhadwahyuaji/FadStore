@@ -102,7 +102,7 @@
                                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
-                            <form id="addressForm" method="POST" action="{{ route('alamat.store') }}">
+                            <form id="addressForm" method="POST" action="{{ route('customer.alamat.store') }}">
                                 @csrf
                                 <div class="modal-body">
                                     <!-- Baris untuk Nama Penerima dan No HP -->
@@ -213,7 +213,7 @@
                                 </div>
 
                                 <form id="selectAddressForm" method="POST"
-                                    action="{{ route('alamat.set-default') }}">
+                                    action="{{ route('customer.alamat.set-default') }}">
                                     @csrf
                                     <div class="address-list">
                                         @forelse(auth()->user()->alamat as $alamatItem)
@@ -260,7 +260,7 @@
                                                     <div
                                                         class="col-md-4 text-md-end d-flex flex-column justify-content-between">
                                                         <div class="mb-2 mt-2 mt-md-0">
-                                                            <a href="{{ route('alamat.edit', $alamatItem->id) }}"
+                                                            <a href="{{ route('customer.alamat.edit', $alamatItem->id) }}"
                                                                 class="btn btn-sm btn-outline-primary me-1">
                                                                 <i class="fas fa-edit"></i>
                                                             </a>
@@ -593,7 +593,7 @@
             const $btn = $(this);
             $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-2"></i> Memproses...');
 
-            $.post("{{ route('payment.process') }}", data)
+            $.post("{{ route('customer.payment.process') }}", data)
                 .done(function(res) {
                     if (res.error) {
                         throw new Error(res.error);
@@ -606,13 +606,14 @@
 
                     snap.pay(res.snap_token, {
                         onSuccess: function(result) {
-                            window.location.href = "{{ route('payment.finish') }}";
+                            window.location.href = "{{ route('customer.payment.finish') }}";
                         },
                         onPending: function(result) {
-                            window.location.href = "{{ route('payment.finish') }}";
+                            window.location.href = "{{ route('customer.payment.finish') }}";
                         },
                         onError: function(result) {
-                            window.location.href = "{{ route('payment.finish') }}?error=1";
+                            window.location.href =
+                                "{{ route('customer.payment.finish') }}?error=1";
                         }
                     });
                 })
@@ -679,7 +680,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: '{{ route('alamat.set-default') }}',
+                    url: '{{ route('customer.alamat.set-default') }}',
                     data: {
                         _token: '{{ csrf_token() }}',
                         alamat_id: selectedAddressId
@@ -718,7 +719,7 @@
         function setAsDefault(alamatId) {
             $.ajax({
                 type: 'POST',
-                url: '{{ route('alamat.set-default') }}',
+                url: '{{ route('customer.alamat.set-default') }}',
                 data: {
                     _token: '{{ csrf_token() }}',
                     alamat_id: alamatId

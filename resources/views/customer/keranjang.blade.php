@@ -146,7 +146,7 @@
                                                     title="Tambah ke Wishlist">
                                                     <i class="far fa-heart"></i>
                                                 </button>
-                                                <form action="{{ route('hapus.keranjang', ['id' => $cart->id]) }}"
+                                                <form action="{{ route('customer.keranjang.hapus', ['id' => $cart->id]) }}"
                                                     method="post" class="d-inline">
                                                     @csrf
                                                     @method('delete')
@@ -349,7 +349,7 @@
             </div>
 
             <!-- Hidden Checkout Form -->
-            <form id="checkoutForm" method="POST" action="{{ route('checkout') }}">
+            <form id="checkoutForm" method="POST" action="{{ route('customer.checkout.index') }}">
                 @csrf
                 <input type="hidden" name="voucher_code" id="hidden_voucher_code">
                 <div id="hidden_cart_inputs"></div>
@@ -376,7 +376,7 @@
                             produk menarik!</p>
                     </div>
                     <div class="empty-cart-actions">
-                        <a href="{{ route('home') }}" class="btn-start-shopping">
+                        <a href="/" class="btn-start-shopping">
                             <span class="btn-text">Mulai Berbelanja</span>
                             <i class="fas fa-arrow-right"></i>
                         </a>
@@ -1669,7 +1669,7 @@
             btnLoading.classList.remove('d-none');
             this.disabled = true;
 
-            fetch("{{ route('voucher.cek') }}", {
+            fetch("{{ route('customer.voucher.cek') }}", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -1742,16 +1742,53 @@
             const checkedCheckboxes = document.querySelectorAll('.product-checkbox:checked');
             if (checkedCheckboxes.length === 0) return;
 
-            if (confirm(`Apakah Anda yakin ingin menghapus ${checkedCheckboxes.length} item dari keranjang?`)) {
-                checkedCheckboxes.forEach(checkbox => {
-                    const cartItem = checkbox.closest('.cart-item');
-                    cartItem.style.animation = 'fadeOutLeft 0.3s ease';
-                    setTimeout(() => {
-                        cartItem.remove();
-                        updateCheckoutTotal();
-                    }, 300);
-                });
+            if (!confirm(`Apakah Anda yakin ingin menghapus ${checkedCheckboxes.length} item dari keranjang?`)) {
+                return;
             }
+
+            const ids = Array.from(checkedCheckboxes).map(cb => cb.dataset.cartId);
+            const deleteBtn = document.querySelector('.delete-selected');
+            deleteBtn.disabled = true;
+
+            fetch("{{ route('customer.keranjang.hapus.selected') }}", {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                    body: JSON.stringify({
+                        ids
+                    })
+                })
+                .then(res => res.ok ? res.json() : Promise.reject(res))
+                .then(data => {
+                    if (data.success) {
+                        (data.deleted_ids || []).forEach(id => {
+                            const cartItem = document.querySelector(`.cart-item[data-cart-id="${id}"]`);
+                            if (cartItem) {
+                                cartItem.style.animation = 'fadeOutLeft 0.3s ease';
+                                setTimeout(() => {
+                                    cartItem.remove();
+                                    updateCheckoutTotal();
+                                }, 300);
+                            }
+                        });
+
+                        const notFound = data.not_found_ids || [];
+                        if (notFound.length > 0) {
+                            showNotification('error', `${notFound.length} item tidak ditemukan/unauthorized.`);
+                        }
+
+                        showNotification('success', `${data.deleted_count} item berhasil dihapus.`);
+                    } else {
+                        showNotification('error', 'Gagal menghapus item.');
+                    }
+                })
+                .catch(() => showNotification('error', 'Terjadi kesalahan saat menghapus item.'))
+                .finally(() => {
+                    deleteBtn.disabled = false;
+                    updateCheckoutTotal();
+                });
         }
 
         // Proceed to checkout
