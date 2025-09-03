@@ -189,7 +189,7 @@
                         </div>
                     </div>
 
-                    <div class="category-card" data-aos="fade-up" data-aos-delay="400">
+                    {{-- <div class="category-card" data-aos="fade-up" data-aos-delay="400">
                         <div class="category-image">
                             <img src="https://cdn.easyfrontend.com/pictures/ecommerce/product6.png" alt="Eyewear">
                             <div class="category-overlay">
@@ -204,7 +204,7 @@
                             <p>Fashion & Sport</p>
                             <span class="product-count">20+ Products</span>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </section>

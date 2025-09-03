@@ -170,23 +170,24 @@
                             <p class="section-subtitle">Mungkin Anda juga menyukai produk ini</p>
                         </div>
                         <div class="recommended-products">
-                            @for ($i = 1; $i <= 4; $i++)
+                            @foreach ($produks as $index => $produk)
                                 <div class="recommended-item">
                                     <div class="recommended-image">
-                                        <img src="https://cdn.easyfrontend.com/pictures/ecommerce/product{{ $i }}.png"
-                                            alt="Product {{ $i }}">
+                                        <img src="{{ asset('/' . basename($produk->gambar)) }}"
+                                            alt="{{ $produk->nama }}" alt="Product {{ $produk->nama }}}">
                                         <div class="recommended-overlay">
-                                            <button class="btn-add-to-cart">
+                                            <button class="btn-add-to-cart" data-bs-toggle="tooltip" title="Add to Cart"
+                                                onclick="addToCart({{ $produk->id }})">
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                         </div>
                                     </div>
                                     <div class="recommended-info">
-                                        <h5>Product {{ $i }}</h5>
-                                        <p>Rp 199.000</p>
+                                        <h5>{{ $produk->nama }}</h5>
+                                        <p>Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
                                     </div>
                                 </div>
-                            @endfor
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -1845,6 +1846,64 @@
                 updateCheckoutTotal();
             });
         });
+
+        // Add to cart functionality
+        window.addToCart = function(productId) {
+            const btn = event.target.closest('.quick-add-btn, .action-btn');
+            const originalContent = btn.innerHTML;
+
+            // Show loading state
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adding...';
+            btn.disabled = true;
+
+            // Make AJAX request to add product to cart
+            fetch(`/tambah-keranjang/${productId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                            'content')
+                    },
+                })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error('Network response was not ok');
+                })
+                .then(data => {
+                    // Show success message
+                    btn.innerHTML = '<i class="fas fa-check"></i> Added!';
+                    btn.style.background = '#10b981';
+
+                    // Show success notification (optional)
+                    showNotification('Product added to cart successfully!', 'success');
+
+                    // Reset button after 2 seconds
+                    setTimeout(() => {
+                        btn.innerHTML = originalContent;
+                        btn.style.background = '';
+                        btn.disabled = false;
+                    }, 2000);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+
+                    // Show error message
+                    btn.innerHTML = '<i class="fas fa-times"></i> Error!';
+                    btn.style.background = '#ef4444';
+
+                    // Show error notification
+                    showNotification('Failed to add product to cart. Please try again.', 'error');
+
+                    // Reset button after 2 seconds
+                    setTimeout(() => {
+                        btn.innerHTML = originalContent;
+                        btn.style.background = '';
+                        btn.disabled = false;
+                    }, 2000);
+                });
+        };
 
         // Add CSS animations
         const style = document.createElement('style');

@@ -13,7 +13,9 @@ class KeranjangController extends Controller
     {
         $keranjang = Keranjang::where('user_id', auth()->user()->id)->with('produk')->get();
 
-        return view('customer.keranjang', compact('keranjang'));
+        $produks = Produk::take(10)->get();
+
+        return view('customer.keranjang', compact('keranjang', 'produks'));
     }
 
     public function tambahKeranjang(Request $request, Produk $produk)
